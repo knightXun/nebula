@@ -113,6 +113,8 @@ using HostName = std::pair<string, Port>;
 
 std::ostream& operator<<(std::ostream &, const HostAddr&);
 
+std::ostream& operator<<(std::ostream &, const HostName&);
+
 template<typename Key, typename T>
 using UnorderedMap = typename std::conditional<
     std::is_same<Key, std::string>::value,

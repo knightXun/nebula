@@ -16,7 +16,7 @@ namespace nebula {
 namespace meta {
 
 void HBProcessor::process(const cpp2::HBReq& req) {
-    HostAddr host(req.host.ip, req.host.port);
+    HostName host(req.host.hostname, req.host.port);
     if (FLAGS_hosts_whitelist_enabled
             && hostExist(MetaServiceUtils::hostKey(host.first, host.second))
                 == Status::HostNotFound()) {

@@ -19,6 +19,12 @@ std::ostream& operator <<(std::ostream &os, const HostAddr &addr) {
     return os;
 }
 
+std::ostream& operator <<(std::ostream &os, const HostName &addr) {
+    string hostname = addr.first;
+    uint32_t port = addr.second;
+    os << folly::stringPrintf("[%s:%u]", hostname, port);
+    return os;
+}
 
 std::string versionString() {
     std::string version;

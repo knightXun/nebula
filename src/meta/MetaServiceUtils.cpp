@@ -129,11 +129,11 @@ std::vector<nebula::cpp2::HostAddr> MetaServiceUtils::parsePartVal(folly::String
     return hosts;
 }
 
-std::string MetaServiceUtils::hostKey(IPv4 ip, Port port) {
+std::string MetaServiceUtils::hostKey(string hostname, Port port) {
     std::string key;
     key.reserve(128);
     key.append(kHostsTable.data(), kHostsTable.size())
-       .append(reinterpret_cast<const char*>(&ip), sizeof(ip))
+       .append(hostname.c_str(), sizeof(hostname))
        .append(reinterpret_cast<const char*>(&port), sizeof(port));
     return key;
 }
@@ -150,8 +150,8 @@ const std::string& MetaServiceUtils::hostPrefix() {
     return kHostsTable;
 }
 
-nebula::cpp2::HostAddr MetaServiceUtils::parseHostKey(folly::StringPiece key) {
-    nebula::cpp2::HostAddr host;
+nebula::cpp2::HostName MetaServiceUtils::parseHostKey(folly::StringPiece key) {
+    nebula::cpp2::HostName host;
     memcpy(&host, key.data() + kHostsTable.size(), sizeof(host));
     return host;
 }

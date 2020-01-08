@@ -15,11 +15,11 @@ namespace nebula {
 namespace meta {
 
 kvstore::ResultCode ActiveHostsMan::updateHostInfo(kvstore::KVStore* kv,
-                                                   const HostAddr& hostAddr,
+                                                   const HostName& hostName,
                                                    const HostInfo& info) {
     CHECK_NOTNULL(kv);
     std::vector<kvstore::KV> data;
-    data.emplace_back(MetaServiceUtils::hostKey(hostAddr.first, hostAddr.second),
+    data.emplace_back(MetaServiceUtils::hostKey(hostName.first, hostName.second),
                       HostInfo::encode(info));
     folly::SharedMutex::WriteHolder wHolder(LockUtils::spaceLock());
     folly::Baton<true, std::atomic> baton;
@@ -33,8 +33,8 @@ kvstore::ResultCode ActiveHostsMan::updateHostInfo(kvstore::KVStore* kv,
     return ret;
 }
 
-std::vector<HostAddr> ActiveHostsMan::getActiveHosts(kvstore::KVStore* kv, int32_t expiredTTL) {
-    std::vector<HostAddr> hosts;
+std::vector<HostName> ActiveHostsMan::getActiveHosts(kvstore::KVStore* kv, int32_t expiredTTL) {
+    std::vector<HostName> hosts;
     const auto& prefix = MetaServiceUtils::hostPrefix();
     std::unique_ptr<kvstore::KVIterator> iter;
     auto ret = kv->prefix(kDefaultSpaceId, kDefaultPartId, prefix, &iter);
@@ -47,14 +47,14 @@ std::vector<HostAddr> ActiveHostsMan::getActiveHosts(kvstore::KVStore* kv, int32
         auto host = MetaServiceUtils::parseHostKey(iter->key());
         HostInfo info = HostInfo::decode(iter->val());
         if (now - info.lastHBTimeInMilliSec_ < threshold) {
-            hosts.emplace_back(host.ip, host.port);
+            hosts.emplace_back(host.hostname, host.port);
         }
         iter->next();
     }
     return hosts;
 }
 
-bool ActiveHostsMan::isLived(kvstore::KVStore* kv, const HostAddr& host) {
+bool ActiveHostsMan::isLived(kvstore::KVStore* kv, const HostName& host) {
     auto activeHosts = getActiveHosts(kv);
     return std::find(activeHosts.begin(), activeHosts.end(), host) != activeHosts.end();
 }

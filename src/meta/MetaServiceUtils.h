@@ -61,7 +61,7 @@ public:
 
     static std::vector<nebula::cpp2::HostAddr> parsePartVal(folly::StringPiece val);
 
-    static std::string hostKey(IPv4 ip, Port port);
+    static std::string hostKey(string hostname, Port port);
 
     static std::string hostValOnline();
 
@@ -69,7 +69,7 @@ public:
 
     static const std::string& hostPrefix();
 
-    static nebula::cpp2::HostAddr parseHostKey(folly::StringPiece key);
+    static nebula::cpp2::HostName parseHostKey(folly::StringPiece key);
 
     static std::string schemaEdgePrefix(GraphSpaceID spaceId, EdgeType edgeType);
 

@@ -20,12 +20,12 @@ TEST(ActiveHostsManTest, NormalTest) {
     FLAGS_expired_threshold_sec = 2;
     std::unique_ptr<kvstore::KVStore> kv(TestUtils::initKV(rootPath.path()));
     auto now = time::WallClock::fastNowInMilliSec();
-    ActiveHostsMan::updateHostInfo(kv.get(), HostAddr(0, 0), HostInfo(now));
-    ActiveHostsMan::updateHostInfo(kv.get(), HostAddr(0, 1), HostInfo(now));
-    ActiveHostsMan::updateHostInfo(kv.get(), HostAddr(0, 2), HostInfo(now));
+    ActiveHostsMan::updateHostInfo(kv.get(), HostName("0", 0), HostInfo(now));
+    ActiveHostsMan::updateHostInfo(kv.get(), HostName("0", 1), HostInfo(now));
+    ActiveHostsMan::updateHostInfo(kv.get(), HostName("0", 2), HostInfo(now));
     ASSERT_EQ(3, ActiveHostsMan::getActiveHosts(kv.get()).size());
 
-    ActiveHostsMan::updateHostInfo(kv.get(), HostAddr(0, 0), HostInfo(now + 2000));
+    ActiveHostsMan::updateHostInfo(kv.get(), HostName("0", 0), HostInfo(now + 2000));
     ASSERT_EQ(3, ActiveHostsMan::getActiveHosts(kv.get()).size());
     {
         const auto& prefix = MetaServiceUtils::hostPrefix();
@@ -36,7 +36,7 @@ TEST(ActiveHostsManTest, NormalTest) {
         while (iter->valid()) {
             auto host = MetaServiceUtils::parseHostKey(iter->key());
             HostInfo info = HostInfo::decode(iter->val());
-            ASSERT_EQ(HostAddr(0, i), HostAddr(host.ip, host.port));
+            ASSERT_EQ(HostName("0", i), HostName(host.hostname, host.port));
             if (i == 0) {
                 ASSERT_EQ(HostInfo(now + 2000), info);
             } else {

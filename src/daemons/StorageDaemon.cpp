@@ -82,13 +82,12 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    auto hostName = FLAGS_host_name; 
+    auto hostname = FLAGS_host_name; 
     if(hostName.size() == 0 ) {
-        hostName = folly::stringPrintf("%s:%d, ", FLAGS_local_ip, FLAGS_port);
-    } else {
-        hostName = folly::stringPrintf("%s:%d, ", hostName, FLAGS_port);
-    }
+        hostname = FLAGS_local_ip;
+    } 
 
+    auto hostName = std::make_pair(hostname, port)
     auto metaAddrsRet = nebula::network::NetworkUtils::toHosts(FLAGS_meta_server_addrs);
     if (!metaAddrsRet.ok() || metaAddrsRet.value().empty()) {
         LOG(ERROR) << "Can't get metaServer address, status:" << metaAddrsRet.status()
@@ -113,7 +112,8 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    gStorageServer = std::make_unique<nebula::storage::StorageServer>(hostRet.value(),
+    gStorageServer = std::make_unique<nebula::storage::StorageServer>(hostRet.value(), 
+                                                                      hostName.value(),
                                                                       metaAddrsRet.value(),
                                                                       paths);
     if (!gStorageServer->start()) {

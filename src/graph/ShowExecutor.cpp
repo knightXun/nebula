@@ -106,7 +106,7 @@ void ShowExecutor::showHosts() {
         std::sort(hostItems.begin(), hostItems.end(), [](const auto& a, const auto& b) {
             // sort with online/offline and ip
             if (a.get_status() == b.get_status()) {
-                return a.hostAddr.ip < b.hostAddr.ip;
+                return a.hostName.hostname < b.hostName.hostname;
             }
             return a.get_status() < b.get_status();
         });
@@ -116,9 +116,8 @@ void ShowExecutor::showHosts() {
         for (auto& item : hostItems) {
             std::vector<cpp2::ColumnValue> row;
             row.resize(6);
-            auto hostAddr = HostAddr(item.hostAddr.ip, item.hostAddr.port);
-            row[0].set_str(NetworkUtils::ipFromHostAddr(hostAddr));
-            row[1].set_str(folly::to<std::string>(NetworkUtils::portFromHostAddr(hostAddr)));
+            row[0].set_str(item.hostName.hostname);
+            row[1].set_str(folly::to<std::string>(item.hostName.port));
             switch (item.get_status()) {
                 case meta::cpp2::HostStatus::ONLINE:
                     row[2].set_str("online");

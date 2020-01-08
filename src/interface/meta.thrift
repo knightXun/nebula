@@ -148,7 +148,7 @@ enum SnapshotStatus {
 } (cpp.enum_strict)
 
 struct HostItem {
-    1: common.HostName      hostAddr,
+    1: common.HostName      hostName,
     2: HostStatus           status,
     3: map<string, list<common.PartitionID>> (cpp.template = "std::unordered_map") leader_parts,
     4: map<string, list<common.PartitionID>> (cpp.template = "std::unordered_map") all_parts,
@@ -394,14 +394,14 @@ struct ScanResp {
 
 struct HBResp {
     1: ErrorCode code,
-    2: common.HostName  leader,
+    2: common.HostAddr  leader,
     3: common.ClusterID cluster_id,
     4: i64 last_update_time_in_ms,
 }
 
 struct HBReq {
     1: bool in_storaged,
-    2: common.HostName host,
+    2. common.HostName host,
     3: common.ClusterID cluster_id,
     4: optional map<common.GraphSpaceID, list<common.PartitionID>> (cpp.template = "std::unordered_map") leader_partIds;
 }

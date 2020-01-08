@@ -256,7 +256,7 @@ struct THRegionInfo {
 }
 
 struct TServerName {
-  1: required string hostName
+  1: required string 
   2: optional i32 port
   3: optional i64 startCode
 }

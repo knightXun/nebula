@@ -48,12 +48,12 @@ public:
     ~ActiveHostsMan() = default;
 
     static kvstore::ResultCode updateHostInfo(kvstore::KVStore* kv,
-                                              const HostAddr& hostAddr,
+                                              const HostName& hostName,
                                               const HostInfo& info);
 
-    static std::vector<HostAddr> getActiveHosts(kvstore::KVStore* kv, int32_t expiredTTL = 0);
+    static std::vector<HostName> getActiveHosts(kvstore::KVStore* kv, int32_t expiredTTL = 0);
 
-    static bool isLived(kvstore::KVStore* kv, const HostAddr& host);
+    static bool isLived(kvstore::KVStore* kv, const HostName& host);
 
 protected:
     ActiveHostsMan() = default;
