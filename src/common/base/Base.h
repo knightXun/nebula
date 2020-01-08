@@ -109,6 +109,8 @@ namespace nebula {
 // Host address type and utility functions
 using HostAddr = std::pair<IPv4, Port>;
 
+using HostName = std::pair<string, Port>; 
+
 std::ostream& operator<<(std::ostream &, const HostAddr&);
 
 template<typename Key, typename T>

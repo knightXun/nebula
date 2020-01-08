@@ -21,9 +21,11 @@ namespace storage {
 class StorageServer final {
 public:
     StorageServer(HostAddr localHost,
+                  std::string hostName,
                   std::vector<HostAddr> metaAddrs,
                   std::vector<std::string> dataPaths)
         : localHost_(localHost)
+        , hostName_(hostName)
         , metaAddrs_(std::move(metaAddrs))
         , dataPaths_(std::move(dataPaths)) {}
 
@@ -61,6 +63,7 @@ private:
 
     std::atomic_bool stopped_{false};
     HostAddr localHost_;
+    std::string   hostName;
     std::vector<HostAddr> metaAddrs_;
     std::vector<std::string> dataPaths_;
     std::atomic<Status> webStatus_{Status::STOPPED};

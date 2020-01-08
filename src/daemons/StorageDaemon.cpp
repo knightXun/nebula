@@ -15,6 +15,7 @@ DEFINE_string(data_path, "", "Root data path, multi paths should be split by com
                              "For rocksdb engine, one path one instance.");
 DEFINE_string(local_ip, "", "IP address which is used to identify this server, "
                             "combined with the listen port");
+DEFINE_string(host_name, "", "DNS Name which is used to identify this server, If Empty, will be setted by local_ip")
 DEFINE_bool(daemonize, true, "Whether to run the process as a daemon");
 DEFINE_string(pid_file, "pids/nebula-storaged.pid", "File to hold the process id");
 DEFINE_string(meta_server_addrs, "", "list of meta server addresses,"
@@ -68,7 +69,7 @@ int main(int argc, char *argv[]) {
         LOG(ERROR) << "Storage Data Path should not empty";
         return EXIT_FAILURE;
     }
-
+    
     auto result = nebula::network::NetworkUtils::getLocalIP(FLAGS_local_ip);
     if (!result.ok()) {
         LOG(ERROR) << "Get localIp failed, ip " << FLAGS_local_ip
@@ -80,6 +81,14 @@ int main(int argc, char *argv[]) {
         LOG(ERROR) << "Bad local host addr, status:" << hostRet.status();
         return EXIT_FAILURE;
     }
+
+    auto hostName = FLAGS_host_name; 
+    if(hostName.size() == 0 ) {
+        hostName = folly::stringPrintf("%s:%d, ", FLAGS_local_ip, FLAGS_port);
+    } else {
+        hostName = folly::stringPrintf("%s:%d, ", hostName, FLAGS_port);
+    }
+
     auto metaAddrsRet = nebula::network::NetworkUtils::toHosts(FLAGS_meta_server_addrs);
     if (!metaAddrsRet.ok() || metaAddrsRet.value().empty()) {
         LOG(ERROR) << "Can't get metaServer address, status:" << metaAddrsRet.status()

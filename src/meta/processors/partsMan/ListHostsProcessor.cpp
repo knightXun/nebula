@@ -50,8 +50,8 @@ StatusOr<std::vector<cpp2::HostItem>> ListHostsProcessor::allHostsWithStatus(
     std::vector<std::string> removeHostsKey;
     while (iter->valid()) {
         cpp2::HostItem item;
-        auto host = MetaServiceUtils::parseHostKey(iter->key());
-        item.set_hostAddr(std::move(host));
+        auto hostName = MetaServiceUtils::parseHostKey(iter->key());
+        item.set_hostName(std::move(hostName));
         HostInfo info = HostInfo::decode(iter->val());
         if (now - info.lastHBTimeInMilliSec_ < FLAGS_removed_threshold_sec * 1000) {
             if (now - info.lastHBTimeInMilliSec_ < FLAGS_expired_threshold_sec * 1000) {
@@ -80,13 +80,13 @@ StatusOr<std::vector<cpp2::HostItem>> ListHostsProcessor::allHostsWithStatus(
         iter->next();
     }
 
-    std::unordered_map<HostAddr,
+    std::unordered_map<HostName,
                        std::unordered_map<std::string, std::vector<PartitionID>>> allParts;
     for (const auto& spaceId : spaces) {
         // get space name by space id
         auto spaceName = spaceIdNameMap[spaceId];
 
-        std::unordered_map<HostAddr, std::vector<PartitionID>> hostParts;
+        std::unordered_map<HostName, std::vector<PartitionID>> hostParts;
         const auto& partPrefix = MetaServiceUtils::partPrefix(spaceId);
         kvRet = kvstore_->prefix(kDefaultSpaceId, kDefaultPartId, partPrefix, &iter);
         if (kvRet != kvstore::ResultCode::SUCCEEDED) {

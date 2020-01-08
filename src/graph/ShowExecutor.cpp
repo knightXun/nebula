@@ -99,7 +99,7 @@ void ShowExecutor::showHosts() {
 
         auto hostItems = std::move(resp).value();
         std::vector<cpp2::RowValue> rows;
-        std::vector<std::string> header{"Ip", "Port", "Status", "Leader count",
+        std::vector<std::string> header{"Host", "Port", "Status", "Leader count",
                                         "Leader distribution", "Partition distribution"};
         resp_ = std::make_unique<cpp2::ExecutionResponse>();
         resp_->set_column_names(std::move(header));
