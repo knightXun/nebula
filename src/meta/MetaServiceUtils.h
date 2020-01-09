@@ -53,13 +53,13 @@ public:
 
     static PartitionID parsePartKeyPartId(folly::StringPiece key);
 
-    static std::string partVal(const std::vector<nebula::cpp2::HostAddr>& hosts);
+    static std::string partVal(const std::vector<nebula::cpp2::HostName>& hosts);
 
     static const std::string& partPrefix();
 
     static std::string partPrefix(GraphSpaceID spaceId);
 
-    static std::vector<nebula::cpp2::HostAddr> parsePartVal(folly::StringPiece val);
+    static std::vector<nebula::cpp2::HostName> parsePartVal(folly::StringPiece val);
 
     static std::string hostKey(std::string hostname, Port port);
 

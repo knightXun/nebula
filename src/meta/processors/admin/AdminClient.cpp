@@ -472,6 +472,13 @@ nebula::cpp2::HostAddr AdminClient::toThriftHost(const HostAddr& addr) {
     return thriftAddr;
 }
 
+nebula::cpp2::HostName AdminClient::toThriftHostName(const HostName& hostName) {
+    nebula::cpp2::HostName thriftHostName;
+    thriftHostName.set_hostname(hostName.first);
+    thriftHostName.set_port(hostName.second);
+    return thriftHostName;
+}
+
 StatusOr<std::vector<HostAddr>> AdminClient::getPeers(GraphSpaceID spaceId, PartitionID partId) {
     CHECK_NOTNULL(kv_);
     auto partKey = MetaServiceUtils::partKey(spaceId, partId);

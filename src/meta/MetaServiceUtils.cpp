@@ -94,11 +94,11 @@ PartitionID MetaServiceUtils::parsePartKeyPartId(folly::StringPiece key) {
                                                  + sizeof(GraphSpaceID));
 }
 
-std::string MetaServiceUtils::partVal(const std::vector<nebula::cpp2::HostAddr>& hosts) {
+std::string MetaServiceUtils::partVal(const std::vector<nebula::cpp2::HostName>& hosts) {
     std::string val;
     val.reserve(128);
     for (auto& h : hosts) {
-        val.append(reinterpret_cast<const char*>(&h.ip), sizeof(h.ip))
+        val.append(reinterpret_cast<const char*>(&h.hostname), sizeof(h.hostname))
            .append(reinterpret_cast<const char*>(&h.port), sizeof(h.port));
     }
     return val;
@@ -112,17 +112,17 @@ std::string MetaServiceUtils::partPrefix(GraphSpaceID spaceId) {
     return prefix;
 }
 
-std::vector<nebula::cpp2::HostAddr> MetaServiceUtils::parsePartVal(folly::StringPiece val) {
-    std::vector<nebula::cpp2::HostAddr> hosts;
-    static const size_t unitSize = sizeof(int32_t) * 2;
+std::vector<nebula::cpp2::HostName> MetaServiceUtils::parsePartVal(folly::StringPiece val) {
+    std::vector<nebula::cpp2::HostName> hosts;
+    static const size_t unitSize = 128;
     auto hostsNum = val.size() / unitSize;
     hosts.reserve(hostsNum);
     VLOG(3) << "Total size:" << val.size()
             << ", host size:" << unitSize
             << ", host num:" << hostsNum;
     for (decltype(hostsNum) i = 0; i < hostsNum; i++) {
-        nebula::cpp2::HostAddr h;
-        h.set_ip(*reinterpret_cast<const int32_t*>(val.data() + i * unitSize));
+        nebula::cpp2::HostName h;
+        h.set_hostname(*reinterpret_cast<const char*>(val.data() + i * unitSize));
         h.set_port(*reinterpret_cast<const int32_t*>(val.data() + i * unitSize + sizeof(int32_t)));
         hosts.emplace_back(std::move(h));
     }
@@ -150,10 +150,15 @@ const std::string& MetaServiceUtils::hostPrefix() {
     return kHostsTable;
 }
 
-nebula::cpp2::HostName MetaServiceUtils::parseHostKey(folly::StringPiece key) {
+nebula::cpp2::HostName MetaServiceUtils::parseHostKey(folly::StringPiece rawData) {
+    auto offset = sizeof(int32_t) + *reinterpret_cast<const int32_t *>(rawData.begin());
+    auto indexValue = rawData.subpiece(offset, rawData.size() - offset);
     nebula::cpp2::HostName host;
-    memcpy(&host, key.data() + kHostsTable.size(), sizeof(host));
+    apache::thrift::CompactSerializer::deserialize(indexValue, host);
     return host;
+    // nebula::cpp2::HostName host;
+    // memcpy(&host, key.data() + kHostsTable.size(), sizeof(host));
+    // return host;
 }
 
 std::string MetaServiceUtils::schemaEdgePrefix(GraphSpaceID spaceId, EdgeType edgeType) {

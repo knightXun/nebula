@@ -313,9 +313,10 @@ struct ListHostsResp {
 
 struct PartItem {
     1: required common.PartitionID       part_id,
-    2: optional common.HostAddr          leader,
-    3: required list<common.HostAddr>    peers,
-    4: required list<common.HostAddr>    losts,
+    2: optional common.HostAddr          leader, 
+    3: optional common.HostName          leaderName,
+    4: required list<common.HostName>    peers,
+    5: required list<common.HostName>    losts,
 }
 
 struct ListPartsReq {
@@ -337,7 +338,7 @@ struct GetPartsAllocResp {
     1: ErrorCode code,
     // Valid if ret equals E_LEADER_CHANGED.
     2: common.HostAddr  leader,
-    3: map<common.PartitionID, list<common.HostAddr>>(cpp.template = "std::unordered_map") parts,
+    3: map<common.PartitionID, list<common.HostName>>(cpp.template = "std::unordered_map") parts,
 }
 
 struct MultiPutReq {

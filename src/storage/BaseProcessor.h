@@ -121,6 +121,13 @@ protected:
         return tHost;
     }
 
+    nebula::cpp2::HostName toThriftHostName(const HostName& hostName) {
+        nebula::cpp2::HostName thriftHostName;
+        thriftHostName.set_hostname(hostName.first);
+        thriftHostName.set_port(hostName.second);
+        return thriftHostName;
+    }
+
 private:
     void handleAsync(GraphSpaceID spaceId, PartitionID partId, kvstore::ResultCode code);
 

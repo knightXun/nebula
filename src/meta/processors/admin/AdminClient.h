@@ -139,6 +139,8 @@ private:
 
     nebula::cpp2::HostAddr toThriftHost(const HostAddr& addr);
 
+    nebula::cpp2::HostName toThriftHostName(const HostName& hostName);
+
     StatusOr<std::vector<HostAddr>> getPeers(GraphSpaceID spaceId, PartitionID partId);
 
 private:

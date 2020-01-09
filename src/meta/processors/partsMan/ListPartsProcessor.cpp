@@ -14,7 +14,7 @@ namespace meta {
 void ListPartsProcessor::process(const cpp2::ListPartsReq& req) {
     spaceId_ = req.get_space_id();
     partIds_ = req.get_part_ids();
-    std::unordered_map<PartitionID, std::vector<nebula::cpp2::HostAddr>> partHostsMap;
+    std::unordered_map<PartitionID, std::vector<nebula::cpp2::HostName> partHostsMap;
 
     if (!partIds_.empty()) {
         // Only show the specified parts
@@ -43,7 +43,7 @@ void ListPartsProcessor::process(const cpp2::ListPartsReq& req) {
         cpp2::PartItem partItem;
         partItem.set_part_id(partEntry.first);
         partItem.set_peers(std::move(partEntry.second));
-        std::vector<nebula::cpp2::HostAddr> losts;
+        std::vector<nebula::cpp2::HostName> losts;
         for (auto& host : partItem.get_peers()) {
             if (!ActiveHostsMan::isLived(this->kvstore_, HostName(host.hostname, host.port))) {
                 losts.emplace_back();
@@ -63,9 +63,9 @@ void ListPartsProcessor::process(const cpp2::ListPartsReq& req) {
 }
 
 
-StatusOr<std::unordered_map<PartitionID, std::vector<nebula::cpp2::HostAddr>>>
+StatusOr<std::unordered_map<PartitionID, std::vector<nebula::cpp2::HostName>>>
 ListPartsProcessor::getAllParts() {
-    std::unordered_map<PartitionID, std::vector<nebula::cpp2::HostAddr>> partHostsMap;
+    std::unordered_map<PartitionID, std::vector<nebula::cpp2::HostName>> partHostsMap;
 
     folly::SharedMutex::ReadHolder rHolder(LockUtils::spaceLock());
     auto prefix = MetaServiceUtils::partPrefix(spaceId_);
@@ -81,7 +81,7 @@ ListPartsProcessor::getAllParts() {
         auto key = iter->key();
         PartitionID partId;
         memcpy(&partId, key.data() + prefix.size(), sizeof(PartitionID));
-        std::vector<nebula::cpp2::HostAddr> partHosts = MetaServiceUtils::parsePartVal(iter->val());
+        std::vector<nebula::cpp2::HostName> partHosts = MetaServiceUtils::parsePartVal(iter->val());
         partHostsMap.emplace(partId, std::move(partHosts));
         iter->next();
     }

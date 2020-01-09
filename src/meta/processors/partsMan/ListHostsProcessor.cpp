@@ -80,13 +80,13 @@ StatusOr<std::vector<cpp2::HostItem>> ListHostsProcessor::allHostsWithStatus(
         iter->next();
     }
 
-    std::unordered_map<HostInfo,
+    std::unordered_map<HostName,
                        std::unordered_map<std::string, std::vector<PartitionID>>> allParts;
     for (const auto& spaceId : spaces) {
         // get space name by space id
         auto spaceName = spaceIdNameMap[spaceId];
 
-        std::unordered_map<HostInfo, std::vector<PartitionID>> hostParts;
+        std::unordered_map<HostName, std::vector<PartitionID>> hostParts;
         const auto& partPrefix = MetaServiceUtils::partPrefix(spaceId);
         kvRet = kvstore_->prefix(kDefaultSpaceId, kDefaultPartId, partPrefix, &iter);
         if (kvRet != kvstore::ResultCode::SUCCEEDED) {
@@ -109,9 +109,10 @@ StatusOr<std::vector<cpp2::HostItem>> ListHostsProcessor::allHostsWithStatus(
     }
 
     for (const auto& hostEntry : allParts) {
-        auto hostAddr = toThriftHost(hostEntry.first);
+        auto hostname = toThriftHostName(hostEntry.first);
         auto it = std::find_if(hostItems.begin(), hostItems.end(), [&](const auto& item) {
-            return item.get_hostAddr() == hostAddr;
+            return item.get_hostName().get_hostname() == hostname.get_hostname() &&
+                item.get_hostName().get_port() == hostname.get_port();
         });
         if (it != hostItems.end()) {
             // set default leader parts of all space to empty
@@ -153,7 +154,7 @@ void ListHostsProcessor::getLeaderDist(
     for (auto& hostEntry : hostLeaderMap) {
         auto hostAddr = toThriftHost(hostEntry.first);
         auto it = std::find_if(hostItems.begin(), hostItems.end(), [&](const auto& item) {
-            return item.get_hostAddr() == hostAddr;
+            return item.get_host() == hostName;
         });
 
         if (it != hostItems.end()) {
