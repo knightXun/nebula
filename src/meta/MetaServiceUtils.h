@@ -61,7 +61,7 @@ public:
 
     static std::vector<nebula::cpp2::HostAddr> parsePartVal(folly::StringPiece val);
 
-    static std::string hostKey(string hostname, Port port);
+    static std::string hostKey(std::string hostname, Port port);
 
     static std::string hostValOnline();
 

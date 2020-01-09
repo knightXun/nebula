@@ -1386,9 +1386,9 @@ folly::Future<StatusOr<bool>> MetaClient::heartbeat() {
     cpp2::HBReq req;
     req.set_in_storaged(options_.inStoraged_);
     if (options_.inStoraged_) {
-        nebula::cpp2::HostAddr thriftHost;
-        thriftHost.set_ip(options_.localHost_.first);
-        thriftHost.set_port(options_.localHost_.second);
+        nebula::cpp2::HostName thriftHost;
+        thriftHost.set_hostname(options_.hostName_.first);
+        thriftHost.set_port(options_.hostName_.second);
         req.set_host(std::move(thriftHost));
         if (options_.clusterId_.load() == 0) {
             options_.clusterId_ = ClusterIdMan::getClusterIdFromFile(FLAGS_cluster_id_path);

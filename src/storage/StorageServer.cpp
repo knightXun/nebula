@@ -92,6 +92,7 @@ bool StorageServer::start() {
     // Meta client
     meta::MetaClientOptions options;
     options.localHost_ = localHost_;
+    options.hostName_ = hostName_;
     options.inStoraged_ = true;
     options.serviceName_ = "";
     options.skipConfig_ = FLAGS_local_config;

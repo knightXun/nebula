@@ -401,7 +401,7 @@ struct HBResp {
 
 struct HBReq {
     1: bool in_storaged,
-    2. common.HostName host,
+    2: common.HostName host,
     3: common.ClusterID cluster_id,
     4: optional map<common.GraphSpaceID, list<common.PartitionID>> (cpp.template = "std::unordered_map") leader_partIds;
 }

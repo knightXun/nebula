@@ -45,9 +45,9 @@ void ListPartsProcessor::process(const cpp2::ListPartsReq& req) {
         partItem.set_peers(std::move(partEntry.second));
         std::vector<nebula::cpp2::HostAddr> losts;
         for (auto& host : partItem.get_peers()) {
-            if (!ActiveHostsMan::isLived(this->kvstore_, HostAddr(host.ip, host.port))) {
+            if (!ActiveHostsMan::isLived(this->kvstore_, HostName(host.hostname, host.port))) {
                 losts.emplace_back();
-                losts.back().set_ip(host.ip);
+                losts.back().set_hostName(host.hostname);
                 losts.back().set_port(host.port);
             }
         }

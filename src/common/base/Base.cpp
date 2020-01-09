@@ -19,10 +19,10 @@ std::ostream& operator <<(std::ostream &os, const HostAddr &addr) {
     return os;
 }
 
-std::ostream& operator <<(std::ostream &os, const HostName &addr) {
-    string hostname = addr.first;
-    uint32_t port = addr.second;
-    os << folly::stringPrintf("[%s:%u]", hostname, port);
+std::ostream& operator <<(std::ostream &os, const HostName &name) {
+    std::string hostname = name.first;
+    uint32_t port = name.second;
+    os << folly::stringPrintf("[%s:%u]", hostname.c_str(), port);
     return os;
 }
 

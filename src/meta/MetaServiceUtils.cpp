@@ -129,7 +129,7 @@ std::vector<nebula::cpp2::HostAddr> MetaServiceUtils::parsePartVal(folly::String
     return hosts;
 }
 
-std::string MetaServiceUtils::hostKey(string hostname, Port port) {
+std::string MetaServiceUtils::hostKey(std::string hostname, Port port) {
     std::string key;
     key.reserve(128);
     key.append(kHostsTable.data(), kHostsTable.size())

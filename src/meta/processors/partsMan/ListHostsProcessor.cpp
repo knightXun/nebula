@@ -50,8 +50,8 @@ StatusOr<std::vector<cpp2::HostItem>> ListHostsProcessor::allHostsWithStatus(
     std::vector<std::string> removeHostsKey;
     while (iter->valid()) {
         cpp2::HostItem item;
-        auto hostInfo = MetaServiceUtils::parseHostKey(iter->key());
-        item.set_hostInfo(std::move(hostInfo));
+        auto hostName = MetaServiceUtils::parseHostKey(iter->key());
+        item.set_hostName(std::move(hostName));
         HostInfo info = HostInfo::decode(iter->val());
         if (now - info.lastHBTimeInMilliSec_ < FLAGS_removed_threshold_sec * 1000) {
             if (now - info.lastHBTimeInMilliSec_ < FLAGS_expired_threshold_sec * 1000) {
@@ -98,7 +98,7 @@ StatusOr<std::vector<cpp2::HostItem>> ListHostsProcessor::allHostsWithStatus(
             PartitionID partId = MetaServiceUtils::parsePartKeyPartId(iter->key());
             auto partHosts = MetaServiceUtils::parsePartVal(iter->val());
             for (auto& host : partHosts) {
-                hostParts[HostAddr(host.ip, host.port)].emplace_back(partId);
+                hostParts[HostName(host.hostname, host.port)].emplace_back(partId);
             }
             iter->next();
         }
