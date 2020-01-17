@@ -25,6 +25,12 @@ spec:
       - name: nebula-graphd
         image: "{{ .Values.image.graphd.repository }}:{{ .Values.image.graphd.tag }}"
         imagePullPolicy: {{ .Values.image.graphd.pullPolicy }}
+        requests:
+            cpu: {{ .Values.resources.graphd.requests.cpu | quote }}
+            memory: {{ .Values.resources.graphd.requests.memory | quote }}
+          limits:
+            cpu: {{ .Values.resources.graphd.limits.cpu | quote }}
+            memory: {{ .Values.resources.graphd.limits.memory | quote }}
         ports:
         - name: thrift
           containerPort: {{ .Values.port.graphd.thriftPort }}

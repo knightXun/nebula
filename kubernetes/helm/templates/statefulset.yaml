@@ -23,6 +23,12 @@ spec:
       - name: nebula-metad
         image: "{{ .Values.image.metad.repository }}:{{ .Values.image.metad.tag }}"
         imagePullPolicy: {{ .Values.image.metad.pullPolicy }}
+        requests:
+            cpu: {{ .Values.resources.metad.requests.cpu | quote }}
+            memory: {{ .Values.resources.metad.requests.memory | quote }}
+          limits:
+            cpu: {{ .Values.resources.metad.limits.cpu | quote }}
+            memory: {{ .Values.resources.metad.limits.memory | quote }}
         ports:
         - containerPort: {{ .Values.port.metad.thriftPort }}
           name: thrift
@@ -93,6 +99,12 @@ spec:
       - name: nebula-storaged
         image: "{{ .Values.image.storaged.repository }}:{{ .Values.image.storaged.tag }}"
         imagePullPolicy: {{ .Values.image.storaged.pullPolicy }}
+        requests:
+            cpu: {{ .Values.resources.storaged.requests.cpu | quote }}
+            memory: {{ .Values.resources.storaged.requests.memory | quote }}
+          limits:
+            cpu: {{ .Values.resources.storaged.limits.cpu | quote }}
+            memory: {{ .Values.resources.storaged.limits.memory | quote }}
         ports:
         - containerPort: {{ .Values.port.storaged.thriftPort }}
           name: thrift
