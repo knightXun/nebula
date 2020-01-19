@@ -25,7 +25,8 @@ spec:
       - name: nebula-graphd
         image: "{{ .Values.image.graphd.repository }}:{{ .Values.image.graphd.tag }}"
         imagePullPolicy: {{ .Values.image.graphd.pullPolicy }}
-        requests:
+        resources:
+          requests:
             cpu: {{ .Values.resources.graphd.requests.cpu | quote }}
             memory: {{ .Values.resources.graphd.requests.memory | quote }}
           limits:
