@@ -32,27 +32,27 @@ livenessProbe:
 resources: 
   graphd:
     limits:
-      cpu: 1000m
-      memory: 1024Mi
+      cpu: 4000m
+      memory: 8192Mi
     requests:
-      cpu: 1000m
-      memory: 1024Mi
+      cpu: 4000m
+      memory: 8192Mi
 
   metad:
     limits:
-      cpu: 1000m
-      memory: 1024Mi
+      cpu: 4000m
+      memory: 8192Mi
     requests:
-      cpu: 1000m
-      memory: 1024Mi
+      cpu: 4000m
+      memory: 8192Mi
   
   storaged:
     limits:
-      cpu: 1000m
-      memory: 1024Mi
+      cpu: 4000m
+      memory: 16384Mi
     requests:
-      cpu: 1000m
-      memory: 1024Mi
+      cpu: 4000m
+      memory: 16384Mi
 
 replication:
   ## Number of nebula-storaged replicas

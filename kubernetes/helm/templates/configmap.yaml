@@ -14,7 +14,7 @@ data:
     # The directory to host logging files, which must already exists
     --log_dir=logs
     # Log level, 0, 1, 2, 3 for INFO, WARNING, ERROR, FATAL respectively
-    --minloglevel=0
+    --minloglevel=2
     # Verbose log level, 1, 2, 3, 4, the higher of the level, the more verbose of the logging
     --v=0
     # Maximum seconds to buffer the log messages
@@ -75,7 +75,7 @@ data:
     # The directory to host logging files, which must already exists
     --log_dir=logs
     # Log level, 0, 1, 2, 3 for INFO, WARNING, ERROR, FATAL respectively
-    --minloglevel=0
+    --minloglevel=2
     # Verbose log level, 1, 2, 3, 4, the higher of the level, the more verbose of the logging
     --v=0
     # Maximum seconds to buffer the log messages
@@ -123,7 +123,7 @@ data:
     # The directory to host logging files, which must already exists
     --log_dir=logs
     # Log level, 0, 1, 2, 3 for INFO, WARNING, ERROR, FATAL respectively
-    --minloglevel=0
+    --minloglevel=2
     # Verbose log level, 1, 2, 3, 4, the higher of the level, the more verbose of the logging
     --v=0
     # Maximum seconds to buffer the log messages
