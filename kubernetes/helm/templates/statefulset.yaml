@@ -107,6 +107,7 @@ spec:
     spec:
       terminationGracePeriodSeconds: 60
       restartPolicy: Always
+      hostNetwork: true
       containers:
       - name: nebula-storaged
         image: "{{ .Values.image.storaged.repository }}:{{ .Values.image.storaged.tag }}"

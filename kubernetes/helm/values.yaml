@@ -49,10 +49,10 @@ resources:
   storaged:
     limits:
       cpu: 4000m
-      memory: 16384Mi
+      memory: 32768Mi
     requests:
       cpu: 4000m
-      memory: 16384Mi
+      memory: 32768Mi
 
 replication:
   ## Number of nebula-storaged replicas
