@@ -19,6 +19,7 @@ spec:
       terminationGracePeriodSeconds: 60
       # hostname: meta.nebula.services
       restartPolicy: Always
+      hostNetwork: true
       containers:
       - name: nebula-metad
         image: "{{ .Values.image.metad.repository }}:{{ .Values.image.metad.tag }}"
@@ -55,9 +56,11 @@ spec:
         - name: config 
           mountPath: /usr/local/nebula/etc/
         - name: data
-          mountPath: /usr/local/nebula/data/
+          mountPath: /usr/local/nebula/data
         - name: timezone
           mountPath: /etc/localtime
+        - name: log
+          mountPath: /usr/local/nebula/logs 
       volumes:
       - name: config 
         configMap: 
@@ -68,6 +71,9 @@ spec:
       - name: data
         persistentVolumeClaim:
           claimName: data
+      - name: log
+        hostPath:
+          path: /var/log
   podManagementPolicy: Parallel
   updateStrategy:
     type: RollingUpdate
@@ -137,9 +143,11 @@ spec:
         - name: config
           mountPath: /usr/local/nebula/etc/
         - name: data
-          mountPath: /usr/local/nebula/data/
+          mountPath: /usr/local/nebula/data
         - name: timezone 
           mountPath: /etc/localtime
+        - name: log
+          mountPath: /usr/local/nebula/logs 
       volumes:
       - name: config
         configMap: 
@@ -150,6 +158,9 @@ spec:
       - name: data
         persistentVolumeClaim:
           claimName: data
+      - name: log 
+        hostPath: 
+          path: /var/log
   podManagementPolicy: Parallel
   updateStrategy:
     type: RollingUpdate

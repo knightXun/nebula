@@ -29,7 +29,7 @@ data:
 
     ########## networking ##########
     # Meta Server Address
-    --meta_server_addrs={{ template "metad.endpoints" . }}
+    --meta_server_addrs=192.168.8.21:{{ .Values.port.metad.thriftPort }},192.168.8.22:{{ .Values.port.metad.thriftPort }},192.168.8.23:{{ .Values.port.metad.thriftPort }}
     # Local ip
     --local_ip=0.0.0.0
     # Network device to listen on
@@ -83,9 +83,9 @@ data:
 
     ########## networking ##########
     # Meta Server Address
-    --meta_server_addrs={{ template "metad.endpoints" . }}
+    --meta_server_addrs=192.168.8.21:{{ .Values.port.metad.thriftPort }},192.168.8.22:{{ .Values.port.metad.thriftPort }},192.168.8.23:{{ .Values.port.metad.thriftPort }}
     # Local ip
-    --local_ip=0.0.0.0
+    --local_ip=0.0.·0.0
     # Meta daemon listening port
     --port={{ .Values.port.metad.thriftPort }}
     # HTTP service ip
@@ -130,7 +130,7 @@ data:
     --logbufsecs=0
     ########## networking ##########
     # Meta server address
-    --meta_server_addrs={{ template "metad.endpoints" . }}
+    --meta_server_addrs=192.168.8.21:{{ .Values.port.metad.thriftPort }},192.168.8.22:{{ .Values.port.metad.thriftPort }},192.168.8.23:{{ .Values.port.metad.thriftPort }}
     # Local ip
     --local_ip=0.0.0.0
     # Storage daemon listening port
