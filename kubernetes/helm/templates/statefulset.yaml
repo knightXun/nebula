@@ -19,6 +19,10 @@ spec:
       terminationGracePeriodSeconds: 60
       # hostname: meta.nebula.services
       restartPolicy: Always
+{{- if .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.nodeSelector | indent 8 }}
+{{- end }}
       containers:
       - name: nebula-metad
         image: "{{ .Values.image.metad.repository }}:{{ .Values.image.metad.tag }}"
@@ -96,6 +100,10 @@ spec:
     spec:
       terminationGracePeriodSeconds: 60
       restartPolicy: Always
+{{- if .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.nodeSelector | indent 8 }}
+{{- end }}
       containers:
       - name: nebula-storaged
         image: "{{ .Values.image.storaged.repository }}:{{ .Values.image.storaged.tag }}"

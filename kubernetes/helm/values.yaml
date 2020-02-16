@@ -27,6 +27,11 @@ livenessProbe:
     Enable: true 
   storaged:
     Enable: true 
+  
+hosts:
+  - hostIP: 192.168.8.21
+  - hostIP: 192.168.8.22
+  - hostIP: 192.168.8.23
 
 ## Optional resource requests and limits for the nebula container
 resources: 
@@ -95,7 +100,8 @@ storage:
   metad:
     size: 20Gi 
 
-nodeSelector: {}
+nodeSelector: 
+  nebula: "yes"
 
 tolerations: []
 
