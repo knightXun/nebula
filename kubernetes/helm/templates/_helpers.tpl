@@ -63,6 +63,5 @@ Create the name of the service account to use
 {{- end -}}
 
 {{- define "metad.endpoints" -}}
-{{- $node := .Values.MetadHosts | list }}
-{{- join "," $node -}}
+{{- join "," .Values.MetadHosts -}}
 {{- end -}}
