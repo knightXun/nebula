@@ -87,10 +87,10 @@ port:
     httpPort: 11000
     http2Port: 11002
 
-Hosts:
-  - 192.168.8.21
-  - 192.168.8.22
-  - 192.168.8.23
+MetadHosts:
+  - 192.168.8.21:44500
+  - 192.168.8.22:44500
+  - 192.168.8.23:44500
 
 ## Storage Setting of Nebula-Metad and Nebula-Storaged
 storage:

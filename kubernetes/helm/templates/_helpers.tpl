@@ -63,8 +63,6 @@ Create the name of the service account to use
 {{- end -}}
 
 {{- define "metad.endpoints" -}}
-{{- $thriftPort := toString (.Values.port.metad.thriftPort) }}
-  {{- range $key, $value := (.Values.Hosts) }}
-{{ $value }}:{{ $thriftPort }},
-  {{- end -}}
+{{- $node := .Values.MetadHosts | list }}
+{{- join "," $node -}}
 {{- end -}}
