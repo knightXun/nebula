@@ -6,17 +6,17 @@ image:
   # the nebula-graphd images,change tag to use a different version.
   graphd:
     repository: vesoft/nebula-graphd
-    tag: nightly
+    tag: v1.0.0-rc3
     pullPolicy: Always
   # the nebula-metad images,change tag to use a different version.
   metad: 
     repository: vesoft/nebula-metad
-    tag: nightly 
+    tag: v1.0.0-rc3
     pullPolicy: Always
   # the nebula storaged images,change tag to use a different version.
   storaged:
     repository: vesoft/nebula-storaged
-    tag: nightly
+    tag: v1.0.0-rc3
     pullPolicy: Always 
 
 # set livenessProbe, kubelet will check nebula pod alive
@@ -37,27 +37,27 @@ hosts:
 resources: 
   graphd:
     limits:
-      cpu: 1000m
-      memory: 1024Mi
+      cpu: 4000m
+      memory: 8192Mi
     requests:
-      cpu: 1000m
-      memory: 1024Mi
+      cpu: 4000m
+      memory: 8192Mi
 
   metad:
     limits:
-      cpu: 1000m
-      memory: 1024Mi
+      cpu: 4000m
+      memory: 8192Mi
     requests:
-      cpu: 1000m
-      memory: 1024Mi
+      cpu: 4000m
+      memory: 8192Mi
   
   storaged:
     limits:
-      cpu: 1000m
-      memory: 1024Mi
+      cpu: 4000m
+      memory: 32768Mi
     requests:
-      cpu: 1000m
-      memory: 1024Mi
+      cpu: 4000m
+      memory: 32768Mi
 
 replication:
   ## Number of nebula-storaged replicas

@@ -23,6 +23,7 @@ spec:
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
 {{- end }}
+      hostNetwork: true
       containers:
       - name: nebula-metad
         image: "{{ .Values.image.metad.repository }}:{{ .Values.image.metad.tag }}"
@@ -59,14 +60,24 @@ spec:
         - name: config 
           mountPath: /usr/local/nebula/etc/
         - name: data
-          mountPath: /usr/local/nebula/data/
+          mountPath: /usr/local/nebula/data
+        - name: timezone
+          mountPath: /etc/localtime
+        - name: log
+          mountPath: /usr/local/nebula/logs 
       volumes:
       - name: config 
         configMap: 
           name: nebula-metad
+      - name: timezone
+        hostPath:
+          path: /etc/localtime
       - name: data
         persistentVolumeClaim:
           claimName: data
+      - name: log
+        hostPath:
+          path: /var/log
   podManagementPolicy: Parallel
   updateStrategy:
     type: RollingUpdate
@@ -104,6 +115,7 @@ spec:
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
 {{- end }}
+      hostNetwork: true
       containers:
       - name: nebula-storaged
         image: "{{ .Values.image.storaged.repository }}:{{ .Values.image.storaged.tag }}"
@@ -140,14 +152,24 @@ spec:
         - name: config
           mountPath: /usr/local/nebula/etc/
         - name: data
-          mountPath: /usr/local/nebula/data/
+          mountPath: /usr/local/nebula/data
+        - name: timezone 
+          mountPath: /etc/localtime
+        - name: log
+          mountPath: /usr/local/nebula/logs 
       volumes:
       - name: config
         configMap: 
           name: nebula-storaged
+      - name: timezone
+        hostPath:
+          path: /etc/localtime
       - name: data
         persistentVolumeClaim:
           claimName: data
+      - name: log 
+        hostPath: 
+          path: /var/log
   podManagementPolicy: Parallel
   updateStrategy:
     type: RollingUpdate
