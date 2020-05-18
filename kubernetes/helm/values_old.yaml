@@ -5,19 +5,19 @@ namespace: default
 image:
   # the nebula-graphd images,change tag to use a different version.
   graphd:
-    repository: pagefault/nebula-graphd
+    repository: knightxun/nebula-graphd
     tag: dns
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
   # the nebula-metad images,change tag to use a different version.
   metad: 
-    repository: pagefault/nebula-metad
+    repository: knightxun/nebula-metad
     tag: dns
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
   # the nebula storaged images,change tag to use a different version.
   storaged:
-    repository: pagefault/nebula-storaged
+    repository: knightxun/nebula-storaged
     tag: dns
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
 
 # set livenessProbe, kubelet will check nebula pod alive
 livenessProbe:

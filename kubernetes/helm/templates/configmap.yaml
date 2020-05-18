@@ -85,7 +85,7 @@ data:
     # Meta Server Address
     --meta_server_addrs={{ template "metad.endpoints" . }}
     # Local ip
-    --local_ip=0.0.·0.0
+    --local_ip=0.0.0.0
     # Meta daemon listening port
     --port={{ .Values.port.metad.thriftPort }}
     # HTTP service ip

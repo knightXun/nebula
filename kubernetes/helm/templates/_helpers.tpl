@@ -63,5 +63,11 @@ Create the name of the service account to use
 {{- end -}}
 
 {{- define "metad.endpoints" -}}
-{{- join "," .Values.MetadHosts -}}
-{{- end -}}
+{{- $thriftPort := toString (.Values.port.metad.thriftPort) }}
+{{- $replicas := int (toString (.Values.replication.metad.replicas)) }}
+{{- $uname := printf "nebula-metad" }}
+  {{- range $i, $e := untilStep 0 $replicas 1 -}}
+{{ $uname }}-{{ $i }}.nebula-metad:{{ $thriftPort }},
+  {{- end -}}
+{{- end -}} 
+
