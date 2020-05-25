@@ -67,7 +67,7 @@ Create the name of the service account to use
 {{- $replicas := int (toString (.Values.replication.metad.replicas)) }}
 {{- $uname := printf "nebula-metad" }}
   {{- range $i, $e := untilStep 0 $replicas 1 -}}
-{{ $uname }}-{{ $i }}.nebula-metad:{{ $thriftPort }},
+{{ $uname }}-{{ $i }}.nebula-metad.{{.Values.namespace}}.svc.cluster.local:{{ $thriftPort }},
   {{- end -}}
 {{- end -}} 
 
